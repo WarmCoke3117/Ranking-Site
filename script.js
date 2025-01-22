@@ -1,48 +1,45 @@
-// Drag-and-Drop Logic
-document.querySelectorAll('.draggable').forEach(item => {
-    item.addEventListener('dragstart', event => {
-      event.dataTransfer.setData('text/plain', event.target.src);
-    });
+// Initialize Drag-and-Drop Functionality
+document.addEventListener("DOMContentLoaded", () => {
+  const draggableItems = document.querySelectorAll(".draggable");
+  const tiers = document.querySelectorAll(".tier");
+
+  draggableItems.forEach(item => {
+      item.addEventListener("dragstart", dragStart);
   });
-  
-  document.querySelectorAll('.rank').forEach(rank => {
-    rank.addEventListener('dragover', event => {
-      event.preventDefault();
-    });
-  
-    rank.addEventListener('drop', event => {
-      event.preventDefault();
-      const imgSrc = event.dataTransfer.getData('text/plain');
-      const img = document.querySelector(`img[src="${imgSrc}"]`);
-      event.target.appendChild(img);
-      saveRankings(); // Save rankings on drop
-    });
+
+  tiers.forEach(tier => {
+      tier.addEventListener("dragover", dragOver);
+      tier.addEventListener("drop", drop);
   });
-  
-  // Save Rankings to LocalStorage
-  function saveRankings() {
-    const rankings = {};
-    document.querySelectorAll('.rank').forEach(rank => {
-      const items = Array.from(rank.children).map(item => item.src);
-      rankings[rank.id] = items;
-    });
-    localStorage.setItem('colors', JSON.stringify(rankings)); // Update for each category
-  }
-  
-  // Load Rankings on Page Load
-  function loadRankings() {
-    const saved = localStorage.getItem('colors'); // Update for each category
-    if (saved) {
-      const rankings = JSON.parse(saved);
-      Object.keys(rankings).forEach(rankId => {
-        const rankDiv = document.getElementById(rankId);
-        rankings[rankId].forEach(imgSrc => {
-          const img = document.querySelector(`img[src="${imgSrc}"]`);
-          if (img) rankDiv.appendChild(img);
-        });
+});
+
+let draggedItem = null;
+
+function dragStart(event) {
+  draggedItem = event.target;
+  setTimeout(() => {
+      draggedItem.style.visibility = "hidden";
+  }, 0);
+}
+
+function dragOver(event) {
+  event.preventDefault();
+}
+
+function drop(event) {
+  event.preventDefault();
+
+  // Ensure draggedItem exists and remove duplicates
+  if (draggedItem) {
+      draggedItem.style.visibility = "visible";
+      event.target.appendChild(draggedItem);
+
+      // Remove duplicates from other tiers
+      const tiers = document.querySelectorAll(".tier");
+      tiers.forEach(tier => {
+          if (tier !== event.target && tier.contains(draggedItem)) {
+              tier.removeChild(draggedItem);
+          }
       });
-    }
   }
-  
-  loadRankings();
-  
+}
