@@ -144,7 +144,7 @@ footer {
   margin-bottom: 20px; /* Space between text and button */
 }
 
-.export-button {
+button.export-button {
   font-size: 1.4rem;
   padding: 12px 24px;
   color: white;
@@ -155,8 +155,7 @@ footer {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.export-button:hover {
+button.export-button:hover {
   transform: scale(1.1);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
-
