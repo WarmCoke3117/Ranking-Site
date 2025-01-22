@@ -120,6 +120,15 @@ footer {
   color: #666;
 }
 
+.congratulations-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f3f3f3; /* Optional: background for the page */
+}
+
 .congratulations-content p {
   font-size: 5.3rem;
   text-align: center;
@@ -130,10 +139,10 @@ footer {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
   transition: transform 0.2s, box-shadow 0.2s;
-    /* Constrain size */
-    max-width: 80%; /* Or any value like 600px for fixed width */
-    width: fit-content; /* Adjust width based on content size */
- min-width: 300px; /* Prevent it from being too small */
+  /* Constrain size */
+  max-width: 80%; /* Or any value like 600px for fixed width */
+  width: fit-content; /* Adjust width based on content size */
+  min-width: 300px; /* Prevent it from being too small */
 }
 
 .export-button {
