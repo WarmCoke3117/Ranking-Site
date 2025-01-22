@@ -142,12 +142,13 @@ footer {
   width: fit-content;
   min-width: 300px;
   margin-bottom: 20px; /* Space between text and button */
+}
 
 .export-button {
   font-size: 1.4rem;
   padding: 12px 24px;
   color: white;
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  background: linear-gradient(135deg, #34e89e, #0f3443);
   border: none;
   border-radius: 8px;
   cursor: pointer;
