@@ -122,12 +122,12 @@ footer {
 
 .congratulations-content {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Align content to the top */
   align-items: center;
   flex-direction: column;
-  height: 100vh; /* Full viewport height */
-  padding-top: 50px; /* Reduce top padding for more control */
-  background-color: #f3f3f3; /* Optional: background for the page */
+  height: 80vh; /* Reduce height from full screen to 80% */
+  padding-top: 20px; /* Add some spacing from the top */
+  background-color: #f3f3f3;
 }
 
 .congratulations-content p {
