@@ -1,0 +1,49 @@
+body {
+    background-color: #222;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+  .progress-bar {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  h1 {
+    margin: 20px 0;
+  }
+  
+  .image-pool img {
+    margin: 10px;
+    width: 100px;
+    cursor: grab;
+  }
+  
+  .ranking-template {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .rank {
+    background-color: #444;
+    margin: 10px 0;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    border: 2px solid white;
+    min-height: 50px;
+  }
+  
+  .navigation button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
