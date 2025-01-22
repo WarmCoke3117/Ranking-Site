@@ -126,7 +126,7 @@ footer {
   align-items: center;
   flex-direction: column;
   height: 70vh; /* Reduce height from full screen to 80% */
-  padding-top: 20px; /* Add some spacing from the top */
+  padding-top: 30px; /* Add some spacing from the top */
   background-color: #f3f3f3;
 }
 
