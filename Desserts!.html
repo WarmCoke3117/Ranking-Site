@@ -7,13 +7,49 @@
   <link rel="stylesheet" href="styles.css"> <!-- Links to CSS -->
 </head>
 <body>
-  <!-- Progress Bar -->
-  <div class="progress-bar">
-    <span>Page 2 of 7</span> <!-- Update per category -->
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank Desserts</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Rank Desserts!</h1>
+    </header>
+
+    <div class="ranking-container">
+        <!-- Category Rows -->
+        <div class="tier" data-tier="S">
+            <div class="tier-label">S</div>
+        </div>
+        <div class="tier" data-tier="A">
+            <div class="tier-label">A</div>
+        </div>
+        <div class="tier" data-tier="B">
+            <div class="tier-label">B</div>
+        </div>
+        <div class="tier" data-tier="C">
+            <div class="tier-label">C</div>
+        </div>
+        <div class="tier" data-tier="D">
+            <div class="tier-label">D</div>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Insert same format of button for BACK here-->
+        <button onclick="window.location.href='Colors.html'">Back</button>
+        <button onclick="window.location.href='Flowers.html'">Next</button>
+    </footer>
+
+    <div class="navigation">
+      <button onclick="window.location.href='Desserts.html'">Next</button>
   </div>
 
-  <!-- Page Header -->
-  <h1>Rank Desserts!</h1>
+    <script src="script.js"></script>
 
   <!-- Image Pool (Images to Drag) -->
   <div class="image-pool">
@@ -27,21 +63,6 @@
     <img src="images/desserts/Macaroon.jpg" class="draggable" draggable="true">
     <img src="images/desserts/Mousse.jpg" class="draggable" draggable="true">
     <img src="images/desserts/Tiramisu.jpg" class="draggable" draggable="true">
-  </div>
-
-  <!-- Ranking Template -->
-  <div class="ranking-template">
-    <div id="rank-s" class="rank">S</div>
-    <div id="rank-a" class="rank">A</div>
-    <div id="rank-b" class="rank">B</div>
-    <div id="rank-c" class="rank">C</div>
-    <div id="rank-d" class="rank">D</div>
-  </div>
-
-  <!-- Navigation -->
-  <div class="navigation">
-    <button onclick="window.location.href='Colors!.html'">Back</button>
-    <button onclick="window.location.href='Flowers!.html'">Next</button>
   </div>
 
   <script src="script.js"></script> <!-- Links to JavaScript -->
