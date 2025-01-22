@@ -123,17 +123,20 @@ button:hover {
 }
 
 .tier {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px;
-  border: 2px solid black;
-  border-radius: 10px;
+  display: flex; /* Allows images to be placed in a row */
+  align-items: center; /* Vertically aligns items within the row */
+  gap: 10px; /* Adds spacing between items */
+  padding: 15px; /* Space inside the row for aesthetics */
+  border: 2px solid black; /* Border for visibility */
+  border-radius: 10px; /* Rounded corners */
   background-color: #e3f2fd; /* Default tier background */
-  min-height: 150px;
-  transition: background-color 0.2s ease;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  min-height: 150px; /* Ensures a consistent height */
+  width: 100%; /* Ensures tiers span the full width */
+  max-width: 800px; /* Optionally, limit the maximum width */
+  transition: background-color 0.2s ease; /* Smooth color transition */
+  justify-content: flex-start; /* Align items to the left */
+  flex-wrap: wrap; /* Allows images to wrap if they exceed row width */
+  box-sizing: border-box; /* Includes padding in size calculation */
 }
 
 .tier[data-tier="A"] {
@@ -156,11 +159,22 @@ button:hover {
   background-color: #d9b3ff;
 }
 
-.tier-label {
-  font-size: 1.5rem;
-  font-weight: bold;
-  min-width: 60px;
-  text-align: center;
+.draggable {
+  width: 100px; /* Consistent image size */
+  height: 100px;
+  cursor: grab;
+  border-radius: 5px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-size: cover;
+  background-position: center;
+  display: block;
+  flex-shrink: 0; /* Prevent images from shrinking in flex container */
+}
+
+.draggable:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer */
