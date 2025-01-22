@@ -137,13 +137,11 @@ footer {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
   transition: transform 0.2s, box-shadow 0.2s;
-  /* Constrain size */
-  max-width: 80%; /* Or any value like 600px for fixed width */
-  width: fit-content; /* Adjust width based on content size */
-  min-width: 300px; /* Prevent it from being too small */
-}
+  max-width: 80%;
+  width: fit-content;
+  min-width: 300px;
+  margin-bottom: 20px; /* Space between text and button */
 
 .export-button {
   font-size: 1.4rem;
