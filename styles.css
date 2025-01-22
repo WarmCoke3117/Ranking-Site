@@ -125,7 +125,8 @@ footer {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+  height: 100vh; /* Full viewport height */
+  padding-top: 50px; /* Reduce top padding for more control */
   background-color: #f3f3f3; /* Optional: background for the page */
 }
 
