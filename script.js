@@ -52,6 +52,35 @@ function drop(event) {
   }
 }
 
+// Select all draggable elements and tiers
+const draggables = document.querySelectorAll('.draggable');
+const tiers = document.querySelectorAll('.tier');
+const imagePool = document.querySelector('.image-pool');
+
+// Add drag-and-drop functionality
+draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', () => {
+        draggable.classList.add('dragging');
+    });
+
+    draggable.addEventListener('dragend', () => {
+        draggable.classList.remove('dragging');
+        // If the image is not in any tier, return it to the pool
+        if (![...tiers].some(tier => tier.contains(draggable))) {
+            imagePool.appendChild(draggable);
+        }
+    });
+});
+
+// Allow dropping images into the tiers
+tiers.forEach(tier => {
+    tier.addEventListener('dragover', e => {
+        e.preventDefault();
+        const dragging = document.querySelector('.dragging');
+        tier.appendChild(dragging);
+    });
+});
+
 // Save Rankings to LocalStorage
 function saveRankings() {
   const rankings = {};
