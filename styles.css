@@ -1,61 +1,10 @@
 /* General Styles */
-
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #FFDEE9, #B5FFFC);
+  background-color: #f4f4f9;
   color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.header h1 {
-  font-size: 3rem;
-  color: #333;
-  background: linear-gradient(90deg, #ff7eb3, #ff758c);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.welcome-content p {
-  font-size: 1.2rem;
-  text-align: center;
-  margin: 20px;
-  color: #555;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.start-button {
-  font-size: 1.5rem;
-  padding: 10px 20px;
-  color: white;
-  background: linear-gradient(135deg, #34e89e, #0f3443);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.start-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-.footer {
-  position: absolute;
-  bottom: 20px;
-  font-size: 0.9rem;
-  text-align: center;
-  color: #555;
 }
 
 header {
@@ -123,23 +72,17 @@ button:hover {
 }
 
 .tier {
-  display: flex; /* Keep images in a row */
-  align-items: center; /* Center images vertically */
-  gap: 10px; /* Add spacing between images */
-  padding: 15px; /* Add padding for aesthetics */
-  border: 2px solid black; /* Visible border for tiers */
-  border-radius: 10px; /* Rounded corners */
-  background-color: #e3f2fd; /* Default background */
-  height: 180px; /* Set a static height for all tiers */
-  width: 100%; /* Tiers span full width of the container */
-  max-width: 800px; /* Optional: Limit max width for larger screens */
-  box-sizing: border-box; /* Include padding in height/width calculations */
-  overflow-x: auto; /* Allow horizontal scrolling if content overflows */
-}
-
-.tier img {
-  flex-shrink: 0; /* Prevent images from shrinking */
-  max-height: 100%; /* Ensure images fit within the tier height */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: #e3f2fd; /* Default tier background */
+  min-height: 150px;
+  transition: background-color 0.2s ease;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .tier[data-tier="A"] {
@@ -162,22 +105,11 @@ button:hover {
   background-color: #d9b3ff;
 }
 
-.draggable {
-  width: 100px; /* Consistent image size */
-  height: 100px;
-  cursor: grab;
-  border-radius: 5px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background-size: cover;
-  background-position: center;
-  display: block;
-  flex-shrink: 0; /* Prevent images from shrinking in flex container */
-}
-
-.draggable:active {
-  cursor: grabbing;
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.tier-label {
+  font-size: 1.5rem;
+  font-weight: bold;
+  min-width: 60px;
+  text-align: center;
 }
 
 /* Footer */
@@ -187,32 +119,3 @@ footer {
   font-size: 0.9rem;
   color: #666;
 }
-
-.congratulations-content p {
-  font-size: 1.3rem;
-  text-align: center;
-  color: white;
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.export-button {
-  font-size: 1.4rem;
-  padding: 12px 24px;
-  color: white;
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.export-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
