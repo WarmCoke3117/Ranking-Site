@@ -123,20 +123,23 @@ button:hover {
 }
 
 .tier {
-  display: flex; /* Allows images to be placed in a row */
-  align-items: center; /* Vertically aligns items within the row */
-  gap: 10px; /* Adds spacing between items */
-  padding: 15px; /* Space inside the row for aesthetics */
-  border: 2px solid black; /* Border for visibility */
+  display: flex; /* Keep images in a row */
+  align-items: center; /* Center images vertically */
+  gap: 10px; /* Add spacing between images */
+  padding: 15px; /* Add padding for aesthetics */
+  border: 2px solid black; /* Visible border for tiers */
   border-radius: 10px; /* Rounded corners */
-  background-color: #e3f2fd; /* Default tier background */
-  min-height: 150px; /* Ensures a consistent height */
-  width: 100%; /* Ensures tiers span the full width */
-  max-width: 800px; /* Optionally, limit the maximum width */
-  transition: background-color 0.2s ease; /* Smooth color transition */
-  justify-content: flex-start; /* Align items to the left */
-  flex-wrap: wrap; /* Allows images to wrap if they exceed row width */
-  box-sizing: border-box; /* Includes padding in size calculation */
+  background-color: #e3f2fd; /* Default background */
+  height: 180px; /* Set a static height for all tiers */
+  width: 100%; /* Tiers span full width of the container */
+  max-width: 800px; /* Optional: Limit max width for larger screens */
+  box-sizing: border-box; /* Include padding in height/width calculations */
+  overflow-x: auto; /* Allow horizontal scrolling if content overflows */
+}
+
+.tier img {
+  flex-shrink: 0; /* Prevent images from shrinking */
+  max-height: 100%; /* Ensure images fit within the tier height */
 }
 
 .tier[data-tier="A"] {
