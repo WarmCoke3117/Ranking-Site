@@ -120,36 +120,37 @@ footer {
   color: #666;
 }
 
+/* Main Content Shared Styles */
 .congratulations-content {
   display: flex;
-  justify-content: flex-start; /* Align content to the top */
+  justify-content: center; /* Center content */
   align-items: center;
   flex-direction: column;
-  height: 70vh; /* Reduce height from full screen to 80% */
-  padding-top: 30px; /* Add some spacing from the top */
-  background-color: #f3f3f3;
+  height: 70vh; /* 70% of the viewport height */
+  padding-top: 30px;
+  background-color: #f4f4f9;
 }
 
 .congratulations-content p {
-  font-size: 5.3rem;
+  font-size: 2rem;
   text-align: center;
   color: white;
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
-  padding: 20px 20px; /* Adjusted padding: top/bottom 10px, left/right 20px */
+  background: linear-gradient(135deg, #0078d4, #005fa3);
+  padding: 15px 25px;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s, box-shadow 0.2s;
   max-width: 80%;
   width: fit-content;
   min-width: 300px;
-  margin-bottom: 20px; /* Space between text and button */
+  margin-bottom: 20px;
 }
 
 button.export-button {
   font-size: 1.4rem;
   padding: 12px 24px;
   color: white;
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  background: linear-gradient(135deg, #0078d4, #005fa3);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -160,3 +161,4 @@ button.export-button:hover {
   transform: scale(1.1);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
+
