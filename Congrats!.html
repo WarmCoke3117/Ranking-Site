@@ -4,7 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Congratulations</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Link to CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Confetti Styles */
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      opacity: 0.7;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -20,41 +42,39 @@
     <p>Thank you for using our ranking platform!</p>
   </footer>
 
-  <!-- Load the Confetti Library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.min.js"></script>
-
-  <!-- Confetti Animation -->
+  <!-- Custom Confetti Script -->
   <script>
-    window.addEventListener("load", () => {
-      if (typeof confetti === "function") { // Ensure confetti is defined
-        const duration = 3 * 1000; // 3 seconds
-        const end = Date.now() + duration;
+    function createConfetti() {
+      const confettiContainer = document.createElement("div");
+      confettiContainer.setAttribute("id", "confetti-container");
+      document.body.appendChild(confettiContainer);
 
-        const confettiInterval = setInterval(() => {
-          if (Date.now() > end) {
-            clearInterval(confettiInterval); // Stop after duration
-            return;
-          }
+      const confettiCount = 100; // Number of confetti pieces
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti-piece");
+        
+        // Randomize colors
+        const colors = ["#FFC107", "#E91E63", "#3F51B5", "#4CAF50", "#FFEB3B"];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 
-          // Confetti burst
-          confetti({
-            particleCount: 100,
-            startVelocity: 30,
-            spread: 360,
-            origin: {
-              x: Math.random(), // Random horizontal position
-              y: Math.random() - 0.2 // Slightly above the screen
-            }
-          });
-        }, 250); // Burst every 250ms
-      } else {
-        console.error("Confetti function not found. Ensure the library is loaded.");
+        // Random starting positions
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.animationDelay = Math.random() * 2 + "s";
+        confetti.style.animationDuration = 3 + Math.random() * 2 + "s";
+
+        confettiContainer.appendChild(confetti);
       }
-    });
-  </script>
 
-  <!-- Export Rankings Function -->
-  <script>
+      // Remove confetti after animation ends
+      setTimeout(() => {
+        confettiContainer.remove();
+      }, 5000); // Duration (5 seconds)
+    }
+
+    // Trigger confetti on page load
+    window.addEventListener("load", createConfetti);
+
     function exportRankings() {
       const rankings = JSON.parse(localStorage.getItem('rankings') || '{}');
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(rankings, null, 2));
