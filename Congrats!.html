@@ -19,6 +19,32 @@
   <footer class="footer">
     <p>Thank you for using our ranking platform!</p>
   </footer>
+  
+  <script>
+    // Trigger Confetti Animation on Page Load
+    window.addEventListener("load", () => {
+      const duration = 3 * 1000; // 3 seconds
+      const end = Date.now() + duration;
+
+      const confettiInterval = setInterval(() => {
+        if (Date.now() > end) {
+          clearInterval(confettiInterval); // Stop after duration
+        }
+
+        // Confetti burst
+        confetti({
+          particleCount: 100,
+          startVelocity: 30,
+          spread: 360,
+          origin: {
+            x: Math.random(),
+            y: Math.random() - 0.2 // Slightly above screen
+          }
+        });
+      }, 250); // Burst every 250ms
+    });
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.min.js"></script>
 
   <script>
     function exportRankings() {
