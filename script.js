@@ -1,4 +1,3 @@
-// Initialize Drag-and-Drop Functionality
 document.addEventListener("DOMContentLoaded", () => {
   const draggableItems = document.querySelectorAll(".draggable");
   const tiers = document.querySelectorAll(".tier");
@@ -22,47 +21,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let draggedItem = null;
 
-// Get a unique key for this page (based on filename or data-page attribute)
-const pageKey = document.body.dataset.page || window.location.pathname.split("/").pop();
-
 function dragStart(event) {
   draggedItem = event.target;
-  event.dataTransfer.setData("text/plain", event.target.src);
+  event.dataTransfer.setData('text/plain', event.target.src);
   setTimeout(() => {
-    draggedItem.style.visibility = "hidden"; // Temporary hide to avoid UI conflicts
+    draggedItem.style.visibility = "hidden";
   }, 0);
 }
 
 function dragEnd() {
-  draggedItem.style.visibility = "visible"; // Ensure the item reappears
+  draggedItem.style.visibility = "visible";
   draggedItem = null;
 }
 
 function dragOver(event) {
-  event.preventDefault(); // Allow the drop action
+  event.preventDefault();
 }
 
 function drop(event) {
   event.preventDefault();
 
-  // Ensure a valid drop target and dragged item
   if (draggedItem && event.target.classList.contains("tier")) {
-    // Check if the image already exists in a tier
     document.querySelectorAll(".tier").forEach(tier => {
       if (tier.contains(draggedItem)) {
         tier.removeChild(draggedItem);
       }
     });
 
-    event.target.appendChild(draggedItem); // Append the image to the target tier
-    saveRankings(); // Save the new state
+    event.target.appendChild(draggedItem);
+    saveRankings();
   }
 }
 
 function dropToPool(event) {
   event.preventDefault();
 
-  // Return the image to the pool if dropped there
   if (draggedItem && event.target === document.querySelector(".image-pool")) {
     document.querySelectorAll(".tier").forEach(tier => {
       if (tier.contains(draggedItem)) {
@@ -71,41 +64,35 @@ function dropToPool(event) {
     });
 
     event.target.appendChild(draggedItem);
-    saveRankings(); // Save the new state
+    saveRankings();
   }
 }
 
 // Save Rankings to LocalStorage
 function saveRankings() {
-  const rankings = {};
+  const currentPage = getPageName(); // Get the current page name
+  const allRankings = JSON.parse(localStorage.getItem("allRankings") || "{}");
+
+  const currentRankings = {};
   document.querySelectorAll(".tier").forEach(tier => {
     const items = Array.from(tier.querySelectorAll(".draggable")).map(item => item.src);
-    rankings[tier.dataset.tier] = items;
+    currentRankings[tier.dataset.tier] = items;
   });
 
-  // Save remaining images in the pool
   const poolItems = Array.from(document.querySelector(".image-pool").querySelectorAll(".draggable")).map(item => item.src);
-  rankings["pool"] = poolItems;
+  currentRankings["pool"] = poolItems;
 
-  localStorage.setItem(pageKey, JSON.stringify(rankings)); // Use page-specific key
+  allRankings[currentPage] = currentRankings; // Update the rankings for the current page
+  localStorage.setItem("allRankings", JSON.stringify(allRankings)); // Save all rankings
 }
 
-function exportRankings() {
-  const rankings = JSON.parse(localStorage.getItem(pageKey) || "{}");
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(rankings, null, 2));
-  const downloadAnchor = document.createElement("a");
-  downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", "rankings.json");
-  downloadAnchor.click();
-}
-
-// Load Rankings from LocalStorage
 function loadRankings() {
-  const savedRankings = localStorage.getItem(pageKey); // Use page-specific key
-  if (savedRankings) {
-    const rankings = JSON.parse(savedRankings);
+  const currentPage = getPageName();
+  const allRankings = JSON.parse(localStorage.getItem("allRankings") || "{}");
 
-    // Load images into their tiers
+  if (allRankings[currentPage]) {
+    const rankings = allRankings[currentPage];
+
     Object.keys(rankings).forEach(tierId => {
       const tierElement = document.querySelector(`.tier[data-tier="${tierId}"]`);
       if (tierElement) {
@@ -118,7 +105,6 @@ function loadRankings() {
       }
     });
 
-    // Load remaining images into the pool
     const imagePool = document.querySelector(".image-pool");
     if (rankings["pool"]) {
       rankings["pool"].forEach(imgSrc => {
@@ -129,4 +115,9 @@ function loadRankings() {
       });
     }
   }
+}
+
+function getPageName() {
+  const path = window.location.pathname;
+  return path.substring(path.lastIndexOf("/") + 1); // Extract the filename
 }

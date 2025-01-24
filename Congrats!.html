@@ -5,76 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Congratulations</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Confetti Styles */
-    .confetti-piece {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: red;
-      opacity: 0.7;
-      animation: fall 3s linear infinite;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-  </style>
 </head>
 <body>
-  <header class="header">
+  <header>
     <h1>Congratulations!</h1>
   </header>
 
-  <main class="congratulations-content">
+  <main>
     <p>You’ve completed your rankings! Great job!</p>
-    <button class="export-button" onclick="exportRankings()">Export Results</button>
+    <button onclick="exportRankings()">Export Results</button>
   </main>
 
-  <footer class="footer">
+  <footer>
     <p>Thank you for using our ranking platform!</p>
   </footer>
 
-  <!-- Custom Confetti Script -->
   <script>
-    function createConfetti() {
-      const confettiContainer = document.createElement("div");
-      confettiContainer.setAttribute("id", "confetti-container");
-      document.body.appendChild(confettiContainer);
-
-      const confettiCount = 100; // Number of confetti pieces
-      for (let i = 0; i < confettiCount; i++) {
-        const confetti = document.createElement("div");
-        confetti.classList.add("confetti-piece");
-        
-        // Randomize colors
-        const colors = ["#FFC107", "#E91E63", "#3F51B5", "#4CAF50", "#FFEB3B"];
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-        // Random starting positions
-        confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.animationDelay = Math.random() * 2 + "s";
-        confetti.style.animationDuration = 3 + Math.random() * 2 + "s";
-
-        confettiContainer.appendChild(confetti);
-      }
-
-      // Remove confetti after animation ends
-      setTimeout(() => {
-        confettiContainer.remove();
-      }, 5000); // Duration (5 seconds)
-    }
-
-    // Trigger confetti on page load
-    window.addEventListener("load", createConfetti);
-
     function exportRankings() {
       const rankings = JSON.parse(localStorage.getItem('rankings') || '{}');
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(rankings, null, 2));

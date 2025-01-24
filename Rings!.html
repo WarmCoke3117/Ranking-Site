@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rank Rings</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Links to CSS -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
@@ -12,7 +12,6 @@
   </header>
 
   <div class="ranking-container">
-    <!-- Category Rows -->
     <div class="tier" data-tier="S">
       <div class="tier-label">S</div>
     </div>
@@ -35,7 +34,6 @@
     <button onclick="window.location.href='Congrats!.html'">Next</button>
   </footer>
 
-  <!-- Image Pool (Images to Drag) -->
   <div class="image-pool">
     <img src="images/rings/Ring1.jpg" class="draggable" draggable="true">
     <img src="images/rings/Ring2.jpg" class="draggable" draggable="true">
@@ -48,16 +46,6 @@
     <img src="images/rings/Ring9.jpg" class="draggable" draggable="true">
   </div>
 
-  // Example for the Rings Page
-  const category = "rings";
-  const rankingData = ["Ring1", "Ring2", "Ring3"]; // Example ranking data
-  saveRanking(category, rankingData);
-  
-  // Example for the Places Page
-  const placesCategory = "places";
-  const placesRanking = ["Place1", "Place2", "Place3"];
-  saveRanking(placesCategory, placesRanking);
-    
-  <script src="script.js"></script> <!-- Links to JavaScript -->
+  <script src="script.js"></script>
 </body>
 </html>
