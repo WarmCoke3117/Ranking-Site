@@ -4,6 +4,50 @@
 const pageTitle = document.title; // Example: "Rank Colors"
 const storageKey = `${pageTitle.replace("Rank ", "").toLowerCase()}Ranking`; // Example: "colorsRanking"
 
+// Enable drag-and-drop
+document.addEventListener("DOMContentLoaded", () => {
+  const draggables = document.querySelectorAll(".draggable");
+  const tiers = document.querySelectorAll(".tier");
+
+  // Enable dragging for all draggable items
+  draggables.forEach(draggable => {
+    draggable.addEventListener("dragstart", () => {
+      draggable.classList.add("dragging");
+    });
+
+    draggable.addEventListener("dragend", () => {
+      draggable.classList.remove("dragging");
+    });
+  });
+
+  // Enable drop functionality for all tiers
+  tiers.forEach(tier => {
+    tier.addEventListener("dragover", event => {
+      event.preventDefault();
+      const draggingItem = document.querySelector(".dragging");
+      
+      // Check if the item already exists in this tier
+      const existingItem = Array.from(tier.children).find(
+        child => child === draggingItem
+      );
+
+      // If it's not already in this tier, move it
+      if (!existingItem) {
+        tier.appendChild(draggingItem);
+      }
+    });
+  });
+
+  // Remove the item from the previous parent when dropped into a new tier
+  document.querySelectorAll(".tier").forEach(tier => {
+    tier.addEventListener("drop", () => {
+      const draggingItem = document.querySelector(".dragging");
+      draggingItem.parentElement.removeChild(draggingItem); // Ensure removal from the old location
+      tier.appendChild(draggingItem); // Append to the new location
+    });
+  });
+});
+
 // Function to save rankings to local storage
 function saveRankings() {
   const tiers = document.querySelectorAll(".tier");
