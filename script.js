@@ -4,50 +4,6 @@
 const pageTitle = document.title; // Example: "Rank Colors"
 const storageKey = `${pageTitle.replace("Rank ", "").toLowerCase()}Ranking`; // Example: "colorsRanking"
 
-// Enable drag-and-drop
-document.addEventListener("DOMContentLoaded", () => {
-  const draggables = document.querySelectorAll(".draggable");
-  const tiers = document.querySelectorAll(".tier");
-
-  // Enable dragging for all draggable items
-  draggables.forEach(draggable => {
-    draggable.addEventListener("dragstart", () => {
-      draggable.classList.add("dragging");
-    });
-
-    draggable.addEventListener("dragend", () => {
-      draggable.classList.remove("dragging");
-    });
-  });
-
-  // Enable drop functionality for all tiers
-  tiers.forEach(tier => {
-    tier.addEventListener("dragover", event => {
-      event.preventDefault();
-      const draggingItem = document.querySelector(".dragging");
-      
-      // Check if the item already exists in this tier
-      const existingItem = Array.from(tier.children).find(
-        child => child === draggingItem
-      );
-
-      // If it's not already in this tier, move it
-      if (!existingItem) {
-        tier.appendChild(draggingItem);
-      }
-    });
-  });
-
-  // Remove the item from the previous parent when dropped into a new tier
-  document.querySelectorAll(".tier").forEach(tier => {
-    tier.addEventListener("drop", () => {
-      const draggingItem = document.querySelector(".dragging");
-      draggingItem.parentElement.removeChild(draggingItem); // Ensure removal from the old location
-      tier.appendChild(draggingItem); // Append to the new location
-    });
-  });
-});
-
 // Function to save rankings to local storage
 function saveRankings() {
   const tiers = document.querySelectorAll(".tier");
@@ -56,7 +12,7 @@ function saveRankings() {
   // Loop through each tier and save the items in the tier
   tiers.forEach(tier => {
     const tierName = tier.getAttribute("data-tier");
-    const items = [...tier.querySelectorAll("img")].map(img => img.src); // Save image src
+    const items = [...tier.querySelectorAll("img")].map(img => img.id); // Save the item's unique ID
     rankings[tierName] = items;
   });
 
@@ -74,47 +30,51 @@ function loadRankings() {
     // Populate the tiers with the saved items
     for (const [tierName, items] of Object.entries(rankings)) {
       const tier = document.querySelector(`.tier[data-tier="${tierName}"]`);
-      items.forEach(itemSrc => {
-        const img = document.createElement("img");
-        img.src = itemSrc;
-        img.classList.add("draggable");
-        img.draggable = true;
+      items.forEach(itemId => {
+        const existingItem = document.getElementById(itemId);
 
-        tier.appendChild(img);
+        if (existingItem) {
+          tier.appendChild(existingItem); // Move the existing item to the correct tier
+        }
       });
     }
   }
 }
 
-// Initialize drag-and-drop functionality
+// Function to set up drag-and-drop functionality
 function setupDragAndDrop() {
   const draggableItems = document.querySelectorAll(".draggable");
   const dropZones = document.querySelectorAll(".tier");
 
+  // Add event listeners to draggable items
   draggableItems.forEach(item => {
     item.addEventListener("dragstart", (e) => {
-      e.dataTransfer.setData("text/plain", e.target.src);
+      e.dataTransfer.setData("text/plain", e.target.id); // Use the item's ID
+      e.target.classList.add("dragging"); // Add a class to identify the dragged item
+    });
+
+    item.addEventListener("dragend", (e) => {
+      e.target.classList.remove("dragging"); // Clean up the class
     });
   });
 
+  // Add event listeners to drop zones
   dropZones.forEach(zone => {
     zone.addEventListener("dragover", (e) => {
-      e.preventDefault();
+      e.preventDefault(); // Allow dropping
     });
 
     zone.addEventListener("drop", (e) => {
       e.preventDefault();
-      const itemSrc = e.dataTransfer.getData("text/plain");
 
-      const img = document.createElement("img");
-      img.src = itemSrc;
-      img.classList.add("draggable");
-      img.draggable = true;
+      const draggedItemId = e.dataTransfer.getData("text/plain"); // Get the dragged item's ID
+      const draggedItem = document.getElementById(draggedItemId); // Find the dragged item by ID
 
-      zone.appendChild(img);
-      setupDragAndDrop(); // Reinitialize drag-and-drop for new items
-
-      saveRankings(); // Save after a drop
+      // Move the item to the new zone if it's not already there
+      if (draggedItem && draggedItem.parentElement !== zone) {
+        zone.appendChild(draggedItem);
+        saveRankings(); // Save the updated rankings
+      }
     });
   });
 }
