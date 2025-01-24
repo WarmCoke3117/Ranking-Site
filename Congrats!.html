@@ -13,22 +13,35 @@
 
   <main>
     <p>You’ve completed your rankings! Great job!</p>
-    <button onclick="exportRankings()">Export Results</button>
+    <button onclick="exportRankings()">Export Rankings</button>
   </main>
 
   <footer>
     <p>Thank you for using our ranking platform!</p>
   </footer>
-
-  <script>
-    function exportRankings() {
-      const rankings = JSON.parse(localStorage.getItem('rankings') || '{}');
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(rankings, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "rankings.json");
-      downloadAnchor.click();
-    }
-  </script>
+<script>
+  function exportRankings() {
+    const exportData = {};
+  
+    // Loop through all localStorage keys
+    Object.keys(localStorage).forEach(key => {
+      // Check if the key is related to rankings
+      if (key.endsWith("Ranking")) {
+        const rankings = JSON.parse(localStorage.getItem(key)); // Parse the saved data
+        exportData[key] = rankings; // Store it in the export object
+      }
+    });
+  
+    // Convert the export data to a JSON string
+    const exportJSON = JSON.stringify(exportData, null, 2);
+  
+    // Download the JSON as a file
+    const blob = new Blob([exportJSON], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "rankings.json";
+    link.click();
+  }
+</script>
 </body>
 </html>
