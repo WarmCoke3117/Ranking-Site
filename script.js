@@ -1,123 +1,85 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const draggableItems = document.querySelectorAll(".draggable");
-  const tiers = document.querySelectorAll(".tier");
-  const imagePool = document.querySelector(".image-pool");
+// script.js
 
-  draggableItems.forEach(item => {
-    item.addEventListener("dragstart", dragStart);
-    item.addEventListener("dragend", dragEnd);
-  });
+// Get the page-specific key for local storage based on the title
+const pageTitle = document.title; // Example: "Rank Colors"
+const storageKey = `${pageTitle.replace("Rank ", "").toLowerCase()}Ranking`; // Example: "colorsRanking"
 
-  tiers.forEach(tier => {
-    tier.addEventListener("dragover", dragOver);
-    tier.addEventListener("drop", drop);
-  });
-
-  imagePool.addEventListener("dragover", dragOver);
-  imagePool.addEventListener("drop", dropToPool);
-
-  loadRankings(); // Load saved rankings on page load
-});
-
-let draggedItem = null;
-
-function dragStart(event) {
-  draggedItem = event.target;
-  event.dataTransfer.setData('text/plain', event.target.src);
-  setTimeout(() => {
-    draggedItem.style.visibility = "hidden";
-  }, 0);
-}
-
-function dragEnd() {
-  draggedItem.style.visibility = "visible";
-  draggedItem = null;
-}
-
-function dragOver(event) {
-  event.preventDefault();
-}
-
-function drop(event) {
-  event.preventDefault();
-
-  if (draggedItem && event.target.classList.contains("tier")) {
-    document.querySelectorAll(".tier").forEach(tier => {
-      if (tier.contains(draggedItem)) {
-        tier.removeChild(draggedItem);
-      }
-    });
-
-    event.target.appendChild(draggedItem);
-    saveRankings();
-  }
-}
-
-function dropToPool(event) {
-  event.preventDefault();
-
-  if (draggedItem && event.target === document.querySelector(".image-pool")) {
-    document.querySelectorAll(".tier").forEach(tier => {
-      if (tier.contains(draggedItem)) {
-        tier.removeChild(draggedItem);
-      }
-    });
-
-    event.target.appendChild(draggedItem);
-    saveRankings();
-  }
-}
-
-// Save Rankings to LocalStorage
+// Function to save rankings to local storage
 function saveRankings() {
-  const currentPage = getPageName(); // Get the current page name
-  const allRankings = JSON.parse(localStorage.getItem("allRankings") || "{}");
+  const tiers = document.querySelectorAll(".tier");
+  const rankings = {};
 
-  const currentRankings = {};
-  document.querySelectorAll(".tier").forEach(tier => {
-    const items = Array.from(tier.querySelectorAll(".draggable")).map(item => item.src);
-    currentRankings[tier.dataset.tier] = items;
+  // Loop through each tier and save the items in the tier
+  tiers.forEach(tier => {
+    const tierName = tier.getAttribute("data-tier");
+    const items = [...tier.querySelectorAll("img")].map(img => img.src); // Save image src
+    rankings[tierName] = items;
   });
 
-  const poolItems = Array.from(document.querySelector(".image-pool").querySelectorAll(".draggable")).map(item => item.src);
-  currentRankings["pool"] = poolItems;
-
-  allRankings[currentPage] = currentRankings; // Update the rankings for the current page
-  localStorage.setItem("allRankings", JSON.stringify(allRankings)); // Save all rankings
+  // Save the rankings object to local storage
+  localStorage.setItem(storageKey, JSON.stringify(rankings));
 }
 
+// Function to load rankings from local storage
 function loadRankings() {
-  const currentPage = getPageName();
-  const allRankings = JSON.parse(localStorage.getItem("allRankings") || "{}");
+  const savedRankings = localStorage.getItem(storageKey);
 
-  if (allRankings[currentPage]) {
-    const rankings = allRankings[currentPage];
+  if (savedRankings) {
+    const rankings = JSON.parse(savedRankings);
 
-    Object.keys(rankings).forEach(tierId => {
-      const tierElement = document.querySelector(`.tier[data-tier="${tierId}"]`);
-      if (tierElement) {
-        rankings[tierId].forEach(imgSrc => {
-          const img = document.querySelector(`img[src="${imgSrc}"]`);
-          if (img) {
-            tierElement.appendChild(img);
-          }
-        });
-      }
-    });
+    // Populate the tiers with the saved items
+    for (const [tierName, items] of Object.entries(rankings)) {
+      const tier = document.querySelector(`.tier[data-tier="${tierName}"]`);
+      items.forEach(itemSrc => {
+        const img = document.createElement("img");
+        img.src = itemSrc;
+        img.classList.add("draggable");
+        img.draggable = true;
 
-    const imagePool = document.querySelector(".image-pool");
-    if (rankings["pool"]) {
-      rankings["pool"].forEach(imgSrc => {
-        const img = document.querySelector(`img[src="${imgSrc}"]`);
-        if (img) {
-          imagePool.appendChild(img);
-        }
+        tier.appendChild(img);
       });
     }
   }
 }
 
-function getPageName() {
-  const path = window.location.pathname;
-  return path.substring(path.lastIndexOf("/") + 1); // Extract the filename
+// Initialize drag-and-drop functionality
+function setupDragAndDrop() {
+  const draggableItems = document.querySelectorAll(".draggable");
+  const dropZones = document.querySelectorAll(".tier");
+
+  draggableItems.forEach(item => {
+    item.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", e.target.src);
+    });
+  });
+
+  dropZones.forEach(zone => {
+    zone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+    });
+
+    zone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const itemSrc = e.dataTransfer.getData("text/plain");
+
+      const img = document.createElement("img");
+      img.src = itemSrc;
+      img.classList.add("draggable");
+      img.draggable = true;
+
+      zone.appendChild(img);
+      setupDragAndDrop(); // Reinitialize drag-and-drop for new items
+
+      saveRankings(); // Save after a drop
+    });
+  });
 }
+
+// Load rankings and set up drag-and-drop when the page loads
+window.addEventListener("DOMContentLoaded", () => {
+  loadRankings();
+  setupDragAndDrop();
+});
+
+// Save rankings whenever the window is unloaded
+window.addEventListener("beforeunload", saveRankings);
